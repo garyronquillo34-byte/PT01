@@ -55,16 +55,36 @@
     <h2>Logo Gallery</h2>
   </header>
 
-  <section class="gallery">
-    <img src="https://raw.githubusercontent.com/garyronquillo34-byte/PT01/main/images/logo1.png" alt="Logo 1">
-    <img src="https://raw.githubusercontent.com/garyronquillo34-byte/PT01/main/images/logo2.png" alt="Logo 2">
-    <img src="https://raw.githubusercontent.com/garyronquillo34-byte/PT01/main/images/logo3.png" alt="Logo 3">
-    <img src="https://raw.githubusercontent.com/garyronquillo34-byte/PT01/main/images/logo4.png" alt="Logo 4">
-  </section>
+  <section class="gallery" id="gallery"></section>
 
   <footer>
     © 2026 BSIT G. Ronquillo
   </footer>
+
+  <script>
+    // Replace this with your GitHub repo details
+    const user = "garyronquillo34-byte";
+    const repo = "PT01";
+    const folder = "images";
+
+    // GitHub API URL to list folder contents
+    const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${folder}`;
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        const gallery = document.getElementById('gallery');
+        data.forEach(file => {
+          if(file.download_url && file.name.match(/\.(png|jpg|jpeg|gif)$/i)) {
+            const img = document.createElement('img');
+            img.src = file.download_url;
+            img.alt = file.name;
+            gallery.appendChild(img);
+          }
+        });
+      })
+      .catch(error => console.error("Error loading images:", error));
+  </script>
 
 </body>
 </html>
